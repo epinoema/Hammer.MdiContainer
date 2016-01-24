@@ -147,7 +147,7 @@ namespace Hammer.MDIContainer.Control
 
         private static void IsModalChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-
+            if (e.NewValue == null) return;
             ((MdiWindow) d).IsModal = (bool) e.NewValue;
         }
 
