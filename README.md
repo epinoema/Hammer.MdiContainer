@@ -1,5 +1,5 @@
 # Hammer.MdiContainer
-This is a fork from the excelent MDIContainer for WPF. You can find the original codeplex project here:
+This is a fork from the excellent MDIContainer for WPF. You can find the original codeplex project here:
 
 https://mdicontainer.codeplex.com/
 
