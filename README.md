@@ -30,4 +30,6 @@ I have made a few fixes/enhancements:
 
 The source code is licensed under the GNU General Public License version 3 (GPLv3)
 
+#Installation
 This project will be uploaded to NuGet repositories: https://www.nuget.org/packages/MdiContainerWPF/
+PM> Install-Package MdiContainerWPF 
