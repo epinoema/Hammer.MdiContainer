@@ -59,9 +59,13 @@ namespace Hammer.MDIContainer.Control
             if (window?.DataContext != null)
             {
                 InternalItemSource?.Remove(window.DataContext);
-                SelectedItem = Items[Items.Count - 1];
-                var windowNew = ItemContainerGenerator.ContainerFromItem(SelectedItem) as MdiWindow;
-                windowNew.IsSelected = true;
+                if (Items.Count > 0)
+                {
+                    SelectedItem = Items[Items.Count - 1];
+                    var windowNew = ItemContainerGenerator.ContainerFromItem(SelectedItem) as MdiWindow;
+                    if (windowNew != null) windowNew.IsSelected = true;
+                }
+
                 // clear
                 window.FocusChanged -= OnWindowFocusChanged;
                 window.Closing -= OnWindowClosing;
@@ -85,6 +89,8 @@ namespace Hammer.MDIContainer.Control
             if (((MdiWindow)sender).IsFocused)
             {
                 SelectedItem = e.OriginalSource;
+
+                ((MdiWindow) ItemContainerGenerator.ContainerFromItem(SelectedItem)).IsSelected = true;
 
                 foreach (var item in Items)
                 {

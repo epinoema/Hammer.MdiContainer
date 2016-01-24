@@ -267,9 +267,10 @@ namespace Hammer.MDIContainer.Control
 
         protected override void OnLostKeyboardFocus(KeyboardFocusChangedEventArgs e)
         {
-            base.OnLostKeyboardFocus(e);
 
-            if (e.NewFocus is MdiWindow || VisualTreeExtension.FindMdiWindow(e.NewFocus as FrameworkElement) != null)
+            base.OnLostKeyboardFocus(e);
+            FrameworkElement parent =  VisualTreeExtension.FindMdiWindow(e.NewFocus as FrameworkElement);
+            if ((e.NewFocus is MdiWindow && !Equals(e.NewFocus, this) )|| (parent  != null && !Equals(parent, this)))
             {
                 IsSelected = false;
                 Panel.SetZIndex(this, 0);
