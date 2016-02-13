@@ -95,7 +95,7 @@
     <Compile Include="Extensions\WindowBehaviorExtension.cs" />
     <Compile Include="Extensions\WindowVisualExtension.cs" />
     <Compile Include="WindowControls\ResizeThumb.cs" />
-    <Compile Include="WindowControls\HowlloRectangleAdorner.cs" />
+    <Compile Include="WindowControls\HollowRectangleAdorner.cs" />
     <Compile Include="WindowControls\WindowButton.cs" />
     <Page Include="Themes\DefaultTheme.xaml">
       <SubType>Designer</SubType>

@@ -123,7 +123,7 @@ namespace Hammer.MDIContainer.Control
                         _myAdornerLayer = AdornerLayer.GetAdornerLayer(this);
                     if (_myAdorner == null)
                     {
-                        _myAdorner = new HowlloRectangleAdorner(this);
+                        _myAdorner = new HollowRectangleAdorner(this);
                     }
                     _myAdornerLayer.Add(_myAdorner);
 
@@ -132,8 +132,10 @@ namespace Hammer.MDIContainer.Control
                 {
                     _myAdornerLayer?.Remove(_myAdorner);
                 }
-                SetValue(IsModalProperty, value);
+                if(Container!=null)
+                    Container.IsModal = value;
 
+                SetValue(IsModalProperty, value);
             }
         }
 
@@ -274,8 +276,10 @@ namespace Hammer.MDIContainer.Control
             {
                 IsSelected = false;
                 Panel.SetZIndex(this, 0);
-
-                RaiseEvent(new RoutedEventArgs(FocusChangedEvent, DataContext));
+                var newWindow = (e.NewFocus is MdiWindow) ? (e.NewFocus as MdiWindow) : (parent as MdiWindow);
+                Container.SetValue(MdiContainer.SelectedItemProperty , newWindow.DataContext);
+                newWindow.IsSelected = true;
+                //RaiseEvent(new RoutedEventArgs(FocusChangedEvent, DataContext));
             }
 
         }

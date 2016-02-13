@@ -11,9 +11,42 @@ namespace Hammer.MDIContainer.Control
         private IList InternalItemSource { get; set; }
         internal int MinimizedWindowsCount { get; private set; }
 
+
+        public MdiContainer() : base()
+        {
+            this.SelectionChanged += MdiContainer_SelectionChanged;
+        }
+
+        private void MdiContainer_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count > 0)
+            {
+                 var windowNew = ItemContainerGenerator.ContainerFromItem(e.AddedItems[0]) as MdiWindow;
+                 if (windowNew != null) windowNew.SetValue(MdiWindow.IsSelectedProperty, true);
+            }
+           
+        }
+        public static readonly DependencyProperty IsModalProperty =
+     DependencyProperty.Register("IsModal", typeof(bool?), typeof(MdiContainer), new UIPropertyMetadata(IsModalChangedCallback));
+        private static void IsModalChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (e.NewValue == null) return;
+            ((MdiContainer)d).IsModal = (bool)e.NewValue;
+        }
+        public bool IsModal
+        {
+            get { return (bool)GetValue(IsModalProperty); }
+            set
+            {
+               
+                SetValue(IsModalProperty, value);
+
+            }
+        }
         static MdiContainer()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(MdiContainer), new FrameworkPropertyMetadata(typeof(MdiContainer)));
+            
         }
 
         protected override DependencyObject GetContainerForItemOverride()
@@ -104,6 +137,10 @@ namespace Hammer.MDIContainer.Control
                         }
                     }
                 }
+                SelectedItem = e.OriginalSource;
+
+                ((MdiWindow)ItemContainerGenerator.ContainerFromItem(SelectedItem)).IsSelected = true;
+
             }
         }
     }

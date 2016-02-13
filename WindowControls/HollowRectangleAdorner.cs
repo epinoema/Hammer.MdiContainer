@@ -8,10 +8,10 @@ using System.Windows.Media;
 
 namespace Hammer.MDIContainer.Control.WindowControls
 {
-    public class HowlloRectangleAdorner : Adorner
+    public class HollowRectangleAdorner : Adorner
     {
         // Be sure to call the base class constructor.
-        public HowlloRectangleAdorner(UIElement adornedElement)
+        public HollowRectangleAdorner(UIElement adornedElement)
             : base(adornedElement)
         {
             
@@ -31,7 +31,7 @@ namespace Hammer.MDIContainer.Control.WindowControls
 
 
             // Some arbitrary drawing implements.
-            SolidColorBrush renderBrush = new SolidColorBrush(Colors.Green);
+            SolidColorBrush renderBrush = new SolidColorBrush(Colors.Transparent);
             renderBrush.Opacity = 0.1;
             Pen renderPen = new Pen(new SolidColorBrush(Colors.Transparent), 0);
 
