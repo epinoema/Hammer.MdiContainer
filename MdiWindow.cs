@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
@@ -43,7 +44,11 @@ namespace Hammer.MDIContainer.Control
         public MdiWindow()
         {
             _myAdornerLayer = AdornerLayer.GetAdornerLayer(this);
+            
         }
+
+   
+
         static MdiWindow()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(MdiWindow), new FrameworkPropertyMetadata(typeof(MdiWindow)));
@@ -56,9 +61,27 @@ namespace Hammer.MDIContainer.Control
         {
             Container = container;
             Container.SizeChanged += OnContainerSizeChanged;
-
+           // SizeChanged +=
             LastHeight = ActualHeight;
             LastWidth = ActualWidth;
+
+        }
+
+        public void Position()
+        {
+            var actualContainerHeight = Container.ActualHeight;
+            var actualContainerWidth = Container.ActualWidth;
+            UpdateLayout();
+            InvalidateMeasure();
+            var actualWidth = ActualWidth;
+            var actualHeight = ActualHeight;
+
+            var left = Math.Max(0, (actualContainerWidth - actualWidth)/2);
+            var top = Math.Max(0, (actualContainerHeight - actualHeight) / 2);
+
+
+            SetValue(Canvas.LeftProperty, left);
+            SetValue(Canvas.TopProperty, top);
 
         }
 
@@ -232,13 +255,33 @@ namespace Hammer.MDIContainer.Control
         public bool IsResizable
         {
             get { return (bool)GetValue(IsResizableProperty); }
-            set { SetValue(IsResizableProperty, value); }
+            set {
+                if (!value)
+                {
+                    Height = double.NaN;
+                    Width = double.NaN; 
+                }
+                SetValue(IsResizableProperty, value); }
         }
 
         public static readonly DependencyProperty IsResizableProperty =
-            DependencyProperty.Register("IsResizable", typeof(bool), typeof(MdiWindow), new UIPropertyMetadata(true));
+            DependencyProperty.Register("IsResizable", typeof(bool), typeof(MdiWindow), new UIPropertyMetadata(IsResizableChangedCallback));
+        private static void IsResizableChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (!((bool) e.NewValue ))
+            {
+                ((MdiWindow)d).Height = double.NaN;
+                ((MdiWindow)d).Width = double.NaN;
+            }
+
+            if (e.NewValue == null) return;
+            ((MdiWindow)d).IsResizable = (bool)e.NewValue;
 
 
+        }
+
+
+   
         private static void OnWindowStateChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
             var window = obj as MdiWindow;

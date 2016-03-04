@@ -65,8 +65,7 @@ namespace Hammer.MDIContainer.Control
                 window.WindowStateChanged += OnWindowStateChanged;
                 window.Initialize(this);
 
-                Canvas.SetTop(window, 32);
-                Canvas.SetLeft(window, 32);
+                window.Position();
 
                 window.Focus();
             }
